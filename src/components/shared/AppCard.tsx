@@ -275,7 +275,7 @@ const AppMetadata = ({
 					<div className="flex items-center gap-2">
 						<Avatar className="h-8 w-8">
 							<AvatarImage src={app.userAvatar || undefined} />
-							<AvatarFallback className="text-[10px] bg-gradient-to-br from-red-200 to-red-300 font-semibold">
+							<AvatarFallback className="text-[10px] bg-gradient-to-br from-accent to-brand-heavy text-white font-semibold">
 								{app.userName?.charAt(0).toUpperCase() || '?'}
 							</AvatarFallback>
 						</Avatar>
@@ -429,7 +429,7 @@ export const AppCard = React.memo<AppCardProps>(
 						)}
 					>
 					{/* Enhanced Preview Section with High-Quality Rendering */}
-					<div className="relative aspect-[16/9] rounded-lg overflow-hidden bg-gradient-to-br from-red-50 to-red-100 dark:from-red-950/20 dark:to-orange-900/20">
+					<div className="relative aspect-[16/9] rounded-lg overflow-hidden bg-gradient-to-br from-accent/5 to-accent/10 dark:from-accent/10 dark:to-accent/5">
 						{app.screenshotUrl ? (
 							<img
 								src={app.screenshotUrl}
@@ -438,7 +438,7 @@ export const AppCard = React.memo<AppCardProps>(
 									'w-full h-full transition-all duration-300 ease-out',
 									// High-quality rendering with smart cropping for better visual appeal
 									'object-cover object-center',
-									'bg-gradient-to-br from-red-50/60 to-red-100/60 dark:from-red-950/15 dark:to-red-900/15',
+									'bg-gradient-to-br from-accent/10 to-accent/20 dark:from-accent/5 dark:to-accent/10',
 								)}
 								loading="lazy"
 								fetchPriority="low"
@@ -509,13 +509,13 @@ export const AppCard = React.memo<AppCardProps>(
 									? 'hidden opacity-0'
 									: 'opacity-100',
 								// Enhanced placeholder design
-								'bg-gradient-to-br from-red-50 via-red-100/80 to-red-200/60 dark:from-red-950/30 dark:via-red-900/20 dark:to-red-800/10',
+								'bg-gradient-to-br from-accent/5 via-accent/10 to-accent/20 dark:from-accent/10 dark:via-accent/5 dark:to-bg-1',
 							)}
 						>
-							<div className="flex flex-col items-center gap-3 text-red-400/70 dark:text-red-500/50">
+							<div className="flex flex-col items-center gap-3 text-accent/70 dark:text-accent/50">
 								<div className="relative">
 									<Code2 className="h-12 w-12 drop-shadow-sm" />
-									<div className="absolute inset-0 bg-gradient-to-t from-red-200/30 to-transparent rounded blur-sm" />
+									<div className="absolute inset-0 bg-gradient-to-t from-accent/30 to-transparent rounded blur-sm" />
 								</div>
 								<div className="text-xs font-medium text-center px-4 opacity-60">
 									Preview Unavailable

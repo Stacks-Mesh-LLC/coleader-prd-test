@@ -168,31 +168,10 @@ export default function Home() {
 
 	return (
 		<div className="relative flex flex-col items-center size-full">
-			{/* Dotted background pattern - extends to full viewport */}
-			<div className="fixed inset-0 text-accent z-0 opacity-20 pointer-events-none">
-				<svg width="100%" height="100%">
-					<defs>
-						<pattern
-							id=":S2:"
-							viewBox="-6 -6 12 12"
-							patternUnits="userSpaceOnUse"
-							width="12"
-							height="12"
-						>
-							<circle
-								cx="0"
-								cy="0"
-								r="1"
-								fill="currentColor"
-							></circle>
-						</pattern>
-					</defs>
-					<rect
-						width="100%"
-						height="100%"
-						fill="url(#:S2:)"
-					></rect>
-				</svg>
+			{/* Sleek radial gradient background - Lovable inspired */}
+			<div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+				<div className="absolute -top-[40%] -left-[10%] w-[120%] h-[100%] rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-accent/10 via-accent/5 to-transparent blur-3xl opacity-80 dark:opacity-40"></div>
+				<div className="absolute top-[20%] -right-[20%] w-[80%] h-[80%] rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-brand-heavy/10 via-transparent to-transparent blur-3xl opacity-60 dark:opacity-30"></div>
 			</div>
 			
 			<LayoutGroup>
@@ -204,7 +183,7 @@ export default function Home() {
 							"px-6 p-8 flex flex-col items-center z-10",
 							discoverReady ? "mt-48" : "mt-[20vh] sm:mt-[24vh] md:mt-[28vh]"
 						)}>
-						<h1 className="text-shadow-sm text-shadow-red-200 dark:text-shadow-red-900 text-accent font-medium leading-[1.1] tracking-tight text-5xl w-full mb-4 bg-clip-text bg-gradient-to-r from-text-primary to-text-primary/90">
+						<h1 className="font-bold leading-[1.1] tracking-tight text-5xl md:text-6xl w-full mb-6 bg-clip-text text-transparent bg-gradient-to-br from-text-primary via-text-primary to-text-secondary">
 							What should we build today?
 						</h1>
 
@@ -215,7 +194,7 @@ export default function Home() {
 								const query = textareaRef.current!.value;
 								handleCreateApp(query, projectMode);
 							}}
-							className="flex z-10 flex-col w-full min-h-[150px] bg-bg-4 border border-accent/30 dark:border-accent/50 dark:bg-bg-2 rounded-[18px] shadow-textarea p-5 transition-all duration-200"
+							className="flex z-10 flex-col w-full min-h-[160px] bg-bg-4/70 dark:bg-bg-2/50 backdrop-blur-2xl border border-border-secondary dark:border-border-secondary/60 rounded-[24px] shadow-elevation p-6 transition-all duration-300 hover:shadow-lg"
 						>
 							<div 
 								className={clsx(
