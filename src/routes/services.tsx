@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Briefcase, Code, Rocket, Server, Users, ArrowRight, Calendar } from 'lucide-react';
+import { Briefcase, Code, Rocket, Server, Users, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function ServicesPage() {
@@ -8,7 +8,7 @@ export default function ServicesPage() {
 			{/* Hero Section */}
 			<section className="max-w-5xl mx-auto text-center mb-24 relative">
 				<div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-lg bg-accent/20 blur-[100px] rounded-full pointer-events-none" />
-				
+
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
@@ -21,10 +21,10 @@ export default function ServicesPage() {
 					<p className="text-xl text-text-secondary max-w-2xl mx-auto mb-10 leading-relaxed">
 						From concept to scale, our expert team provides end-to-end development and infrastructure scaling services for your next big idea.
 					</p>
-					
+
 					<div className="flex justify-center gap-4">
-						<Button 
-							size="lg" 
+						<Button
+							size="lg"
 							className="bg-accent hover:bg-accent/90 text-white font-semibold rounded-full px-8 py-6 text-lg h-auto flex items-center gap-2"
 							onClick={() => window.open('https://calendly.com/quantumbases/30min', '_blank')}
 						>
@@ -90,20 +90,20 @@ export default function ServicesPage() {
 					className="bg-gradient-to-br from-surface-secondary to-surface-tertiary border border-border rounded-3xl p-10 md:p-16 text-center relative overflow-hidden"
 				>
 					<div className="absolute top-0 right-0 w-64 h-64 bg-accent/10 rounded-full blur-[80px]" />
-					
+
 					<h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-6 relative z-10">
 						Ready to build something amazing?
 					</h2>
 					<p className="text-lg text-text-secondary mb-10 max-w-xl mx-auto relative z-10">
 						Schedule a free discovery call with our technical experts to discuss your app requirements and scaling needs.
 					</p>
-					
+
 					<div className="relative z-10 inline-block w-full max-w-[800px] h-[700px] rounded-xl overflow-hidden border border-border bg-bg-2">
 						{/* Calendly Inline Widget */}
-						<iframe 
-							src="https://calendly.com/quantumbases/30min" 
-							width="100%" 
-							height="100%" 
+						<iframe
+							src="https://calendly.com/quantumbases/30min"
+							width="100%"
+							height="100%"
 							frameBorder="0"
 							title="Book a Meeting"
 						></iframe>
