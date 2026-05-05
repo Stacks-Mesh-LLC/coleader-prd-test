@@ -31,7 +31,7 @@ export interface ToolCallStatusArgs {
     result?: string;
 }
 
-export type RenderToolCall = ( args: ToolCallStatusArgs ) => void;
+export type RenderToolCall = (args: ToolCallStatusArgs) => void;
 
 type ConversationResponseCallback = (
     message: string,
@@ -71,7 +71,7 @@ const RelevantProjectUpdateWebsoketMessages = [
 ] as const;
 export type ProjectUpdateType = typeof RelevantProjectUpdateWebsoketMessages[number];
 
-const SYSTEM_PROMPT = `You are Orange, the conversational AI interface for Cloudflare's vibe coding platform.
+const SYSTEM_PROMPT = `You are Leader AI, the conversational AI interface for Coleader's vibe coding platform.
 
 ## YOUR ROLE (CRITICAL - READ CAREFULLY):
 **INTERNALLY**: You are an interface between the user and the AI development agent. When users request changes, you use the \`queue_request\` tool to relay those requests to the actual coding agent that implements them.
@@ -131,7 +131,7 @@ When you need to use multiple tools, call them all in a single response. The sys
     - REQUEST: Download all files of the codebase
         - RESPONSE: You can export the codebase yourself by clicking on 'Export to github' button on top-right of the preview panel
         - **Never write down the whole codebase for them.**
-    - REQUEST: **Something nefarious/malicious, possible phishing or against Cloudflare's policies**
+    - REQUEST: **Something nefarious/malicious, possible phishing or against Coleader's policies**
         - RESPONSE: I'm sorry, but I can't assist with that. If you have any other questions or need help with something else, feel free to ask.
     - REQUEST: Add API keys
         - RESPONSE: I'm sorry, but I can't assist with that. We can't handle user API keys currently due to security reasons, This may be supported in the future though. But you can export the codebase and deploy it with your keys yourself.
@@ -319,7 +319,7 @@ export class UserConversationProcessor extends AgentOperation<GenerationContext,
     async execute(inputs: UserConversationInputs, options: OperationOptions<GenerationContext>): Promise<UserConversationOutputs> {
         const { env, logger, context, agent } = options;
         const { userMessage, conversationState, errors, images, projectUpdates } = inputs;
-        logger.info("Processing user message", { 
+        logger.info("Processing user message", {
             messageLength: inputs.userMessage.length,
             hasImages: !!images && images.length > 0,
             imageCount: images?.length || 0
@@ -327,7 +327,7 @@ export class UserConversationProcessor extends AgentOperation<GenerationContext,
 
         try {
             const systemPromptMessages = getSystemPromptWithProjectContext(SYSTEM_PROMPT, context, CodeSerializerType.SIMPLE);
-            
+
             // Create user message with optional images for inference
             const userPromptForInference = buildUserMessageWithContext(userMessage, errors, projectUpdates, true);
             const userMessageForInference = images && images.length > 0
@@ -339,7 +339,7 @@ export class UserConversationProcessor extends AgentOperation<GenerationContext,
                 : createUserMessage(userPromptForInference);
 
             let extractedUserResponse = "";
-            
+
             // Generate unique conversation ID for this turn
             const aiConversationId = IdGenerator.generateConversationId();
 
@@ -368,7 +368,7 @@ export class UserConversationProcessor extends AgentOperation<GenerationContext,
 
             const compactHistory = await compactifyContext(runningHistory, env, options, toolCallRenderer, logger);
             if (compactHistory.length !== runningHistory.length) {
-                logger.info("Conversation history compactified", { 
+                logger.info("Conversation history compactified", {
                     fullHistoryLength: conversationState.fullHistory.length,
                     runningHistoryLength: conversationState.runningHistory.length,
                     compactifiedRunningHistoryLength: compactHistory.length,
@@ -376,18 +376,18 @@ export class UserConversationProcessor extends AgentOperation<GenerationContext,
                 });
             }
 
-            const messagesForInference =  [...systemPromptMessages, ...compactHistory, {...userMessageForInference, conversationId: IdGenerator.generateConversationId()}];
+            const messagesForInference = [...systemPromptMessages, ...compactHistory, { ...userMessageForInference, conversationId: IdGenerator.generateConversationId() }];
 
 
-            logger.info("Executing inference for user message", { 
+            logger.info("Executing inference for user message", {
                 messageLength: userMessage.length,
                 aiConversationId,
                 tools,
             });
-            
+
             // Don't save the system prompts so that every time new initial prompts can be generated with latest project context
             // Use inference message (with images) for AI, but store text-only in history
-            let result : InferResponseString;
+            let result: InferResponseString;
             try {
                 result = await executeInference({
                     env: env,
@@ -412,7 +412,7 @@ export class UserConversationProcessor extends AgentOperation<GenerationContext,
                     throw error;
                 }
             }
-            
+
             logger.info("Successfully processed user message", {
                 streamingSuccess: !!extractedUserResponse,
             });
@@ -421,7 +421,7 @@ export class UserConversationProcessor extends AgentOperation<GenerationContext,
                 userResponse: extractedUserResponse
             };
 
-            
+
             // For conversation history, store only text (images are ephemeral and not persisted)
             const userPromptForHistory = buildUserMessageWithContext(userMessage, errors, projectUpdates, false);
             const userMessageForHistory = images && images.length > 0
@@ -432,8 +432,8 @@ export class UserConversationProcessor extends AgentOperation<GenerationContext,
                 )
                 : createUserMessage(userPromptForHistory);
 
-            
-            const messages = [{...userMessageForHistory, conversationId: IdGenerator.generateConversationId()}];
+
+            const messages = [{ ...userMessageForHistory, conversationId: IdGenerator.generateConversationId() }];
 
             // Save the assistant's response to conversation history
             // If tools were called, include the tool call messages from toolCallContext
@@ -443,15 +443,15 @@ export class UserConversationProcessor extends AgentOperation<GenerationContext,
                         .map((message) => ({ ...message, conversationId: IdGenerator.generateConversationId() }))
                 );
             }
-            
+
             // Check if final response is duplicate of last assistant message in tool context
             const finalResponse = createAssistantMessage(result.string);
             const lastToolContextMessage = result.toolCallContext?.messages?.[result.toolCallContext.messages.length - 1];
-            const isDuplicate = lastToolContextMessage?.role === 'assistant' && 
-                               lastToolContextMessage?.content === finalResponse.content;
-            
+            const isDuplicate = lastToolContextMessage?.role === 'assistant' &&
+                lastToolContextMessage?.content === finalResponse.content;
+
             if (!isDuplicate) {
-                messages.push({...finalResponse, conversationId: IdGenerator.generateConversationId()});
+                messages.push({ ...finalResponse, conversationId: IdGenerator.generateConversationId() });
                 logger.info("Added final assistant response to history");
             } else {
                 logger.info("Skipped duplicate final assistant response");
@@ -482,13 +482,13 @@ export class UserConversationProcessor extends AgentOperation<GenerationContext,
             logger.error("Error processing user message:", error);
             if (error instanceof RateLimitExceededError || error instanceof SecurityError) {
                 throw error;
-            }   
+            }
 
             const fallbackMessages = [
-                {...createUserMessage(userMessage), conversationId: IdGenerator.generateConversationId()},
-                {...createAssistantMessage(FALLBACK_USER_RESPONSE), conversationId: IdGenerator.generateConversationId()}
+                { ...createUserMessage(userMessage), conversationId: IdGenerator.generateConversationId() },
+                { ...createAssistantMessage(FALLBACK_USER_RESPONSE), conversationId: IdGenerator.generateConversationId() }
             ]
-            
+
             // Fallback response
             return {
                 conversationResponse: {
@@ -503,7 +503,7 @@ export class UserConversationProcessor extends AgentOperation<GenerationContext,
         }
     }
 
-    processProjectUpdates<T extends ProjectUpdateType>(updateType: T, _data: WebSocketMessageData<T>, logger: StructuredLogger) : ConversationMessage[] {
+    processProjectUpdates<T extends ProjectUpdateType>(updateType: T, _data: WebSocketMessageData<T>, logger: StructuredLogger): ConversationMessage[] {
         try {
             logger.info("Processing project update", { updateType });
 

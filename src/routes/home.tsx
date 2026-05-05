@@ -168,33 +168,97 @@ export default function Home() {
 
 	return (
 		<div className="relative flex flex-col items-center size-full">
-			{/* Sleek radial gradient background - Lovable inspired */}
+			{/* Dynamic Vibrant Background Orbs */}
 			<div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-				<div className="absolute -top-[40%] -left-[10%] w-[120%] h-[100%] rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-accent/10 via-accent/5 to-transparent blur-3xl opacity-80 dark:opacity-40"></div>
-				<div className="absolute top-[20%] -right-[20%] w-[80%] h-[80%] rounded-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-brand-heavy/10 via-transparent to-transparent blur-3xl opacity-60 dark:opacity-30"></div>
+				{/* Grid overlay for texture */}
+				<div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEgMWgyMHYyMEgxek0wIDBoMjF2MjFIMHoiIGZpbGw9ImN1cnJlbnRDb2xvciIgZmlsbC1vcGFjaXR5PSIwLjA1IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4=')] [mask-image:linear-gradient(to_bottom,white,transparent)]"></div>
+				
+				<motion.div 
+					animate={{ 
+						x: ["-10%", "20%", "-10%"],
+						y: ["-10%", "10%", "-10%"],
+						scale: [1, 1.2, 1],
+						opacity: [0.3, 0.5, 0.3]
+					}}
+					transition={{ 
+						duration: 15,
+						repeat: Infinity,
+						ease: "easeInOut"
+					}}
+					className="absolute top-0 -left-[10%] w-[50vw] h-[50vw] rounded-full bg-brand-primary/40 dark:bg-brand-primary/40 blur-[100px]"
+				/>
+				<motion.div 
+					animate={{ 
+						x: ["10%", "-20%", "10%"],
+						y: ["10%", "-10%", "10%"],
+						scale: [1, 1.3, 1],
+						opacity: [0.2, 0.4, 0.2]
+					}}
+					transition={{ 
+						duration: 18,
+						repeat: Infinity,
+						ease: "easeInOut",
+						delay: 2
+					}}
+					className="absolute top-[20%] right-[0%] w-[45vw] h-[45vw] rounded-full bg-brand-heavy/40 dark:bg-brand-heavy/40 blur-[100px]"
+				/>
+				<motion.div 
+					animate={{ 
+						y: ["0%", "30%", "0%"],
+						x: ["0%", "-10%", "0%"],
+						scale: [1, 1.5, 1],
+						opacity: [0.2, 0.5, 0.2]
+					}}
+					transition={{ 
+						duration: 20,
+						repeat: Infinity,
+						ease: "easeInOut",
+						delay: 4
+					}}
+					className="absolute bottom-[-10%] left-[20%] w-[60vw] h-[60vw] rounded-full bg-brand-subtle/30 dark:bg-brand-subtle/30 blur-[120px]"
+				/>
 			</div>
 			
 			<LayoutGroup>
 				<div className="rounded-md w-full max-w-2xl overflow-hidden">
 					<motion.div
 						layout
-						transition={{ layout: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } }}
+						initial={{ opacity: 0, y: 30 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ 
+							layout: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+							opacity: { duration: 0.6 },
+							y: { duration: 0.6, ease: "easeOut" }
+						}}
 						className={clsx(
 							"px-6 p-8 flex flex-col items-center z-10",
 							discoverReady ? "mt-48" : "mt-[20vh] sm:mt-[24vh] md:mt-[28vh]"
 						)}>
-						<h1 className="font-bold leading-[1.1] tracking-tight text-5xl md:text-6xl w-full mb-6 bg-clip-text text-transparent bg-gradient-to-br from-text-primary via-text-primary to-text-secondary">
-							What should we build today?
-						</h1>
+						<motion.div
+							initial={{ opacity: 0, y: 20 }}
+							animate={{ opacity: 1, y: 0 }}
+							transition={{ duration: 0.8, ease: "easeOut" }}
+							className="text-center w-full mb-10"
+						>
+							<h1 className="font-extrabold leading-[1.1] tracking-tight text-5xl md:text-7xl mb-4 text-text-primary">
+								What should we build today?
+							</h1>
+							<p className="text-text-secondary text-lg md:text-xl max-w-2xl mx-auto font-medium">
+								Describe your vision, and Leader AI will generate the full stack code for you instantly.
+							</p>
+						</motion.div>
 
-						<form
+						<motion.form
+							initial={{ opacity: 0, y: 20, scale: 0.95 }}
+							animate={{ opacity: 1, y: 0, scale: 1 }}
+							transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
 							method="POST"
 							onSubmit={(e) => {
 								e.preventDefault();
 								const query = textareaRef.current!.value;
 								handleCreateApp(query, projectMode);
 							}}
-							className="flex z-10 flex-col w-full min-h-[160px] bg-bg-4/70 dark:bg-bg-2/50 backdrop-blur-2xl border border-border-secondary dark:border-border-secondary/60 rounded-[24px] shadow-elevation p-6 transition-all duration-300 hover:shadow-lg"
+							className="flex z-10 flex-col w-full min-h-[180px] bg-bg-1/80 dark:bg-bg-2/70 backdrop-blur-3xl border border-border-secondary/80 dark:border-white/10 rounded-[32px] shadow-2xl p-6 transition-all duration-300"
 						>
 							<div 
 								className={clsx(
@@ -265,7 +329,7 @@ export default function Home() {
 									</button>
 								</div>
 							</div>
-						</form>
+						</motion.form>
 					</motion.div>
 
 				</div>

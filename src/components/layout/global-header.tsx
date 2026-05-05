@@ -9,7 +9,7 @@ import { ChevronRight, AlertCircle } from 'lucide-react';
 import { usePlatformStatus } from '@/hooks/use-platform-status';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useLocation } from 'react-router';
+import { useLocation, Link } from 'react-router';
 import clsx from 'clsx';
 
 export function GlobalHeader() {
@@ -101,6 +101,18 @@ export function GlobalHeader() {
 								variant="inline"
 							/>
 						)} */}
+							<Link 
+								to="/" 
+								className="text-sm font-medium text-text-secondary hover:text-accent transition-colors px-3 py-1.5 hidden md:block"
+							>
+								Home
+							</Link>
+							<Link 
+								to="/services" 
+								className="text-sm font-medium text-text-secondary hover:text-accent transition-colors px-3 py-1.5 hidden md:block"
+							>
+								Services
+							</Link>
 							<ThemeToggle />
 							<AuthButton />
 						</motion.div>

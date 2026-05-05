@@ -135,13 +135,23 @@ export class CodeGeneratorAgent extends Agent<Env, AgentState> implements AgentI
         // Infrastructure setup
         await this.gitInit();
         
+        // Save to database immediately so it shows up in the user's sidebar
+        // even if the blueprint generation errors out later.
+        await this.saveToDatabase();
+
         // Let behavior handle all state initialization (blueprint, projectName, etc.)
         await this.behavior.initialize({
             ...initArgs,
             sandboxSessionId // Pass generated session ID to behavior
         });
         
-        await this.saveToDatabase();
+        // Update the app record with the new blueprint data
+        const appService = new AppService(this.env);
+        await appService.updateApp(this.state.metadata.agentId, {
+            title: this.state.blueprint?.title || this.state.query.substring(0, 100),
+            description: this.state.blueprint?.description || '',
+            framework: this.state.blueprint?.frameworks?.join(',') || '',
+        });
         
         return this.state;
     }
@@ -357,11 +367,11 @@ export class CodeGeneratorAgent extends Agent<Env, AgentState> implements AgentI
             id: this.state.metadata.agentId,
             userId: this.state.metadata.userId,
             sessionToken: null,
-            title: this.state.blueprint.title || this.state.query.substring(0, 100),
-            description: this.state.blueprint.description,
+            title: this.state.blueprint?.title || this.state.query.substring(0, 100),
+            description: this.state.blueprint?.description || '',
             originalPrompt: this.state.query,
             finalPrompt: this.state.query,
-            framework: this.state.blueprint.frameworks.join(','),
+            framework: this.state.blueprint?.frameworks?.join(',') || '',
             visibility: 'private',
             status: 'generating',
                 createdAt: new Date(),
